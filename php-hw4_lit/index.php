@@ -2,9 +2,11 @@
 
 	include_once('model/articles.php');
 	include_once('model/visits.php');
-	
+
 	addVisitLog();
-	$articles = getArticles();
+	$articles = messagesAll();
+
+	
 
 ?>
 <a href="add.php">Add article</a>
@@ -13,7 +15,7 @@
 	<? foreach($articles as $id => $article): ?>
 		<div class="article">
 			<h2><?=$article['title']?></h2>
-			<a href="article.php?id=<?=$id?>">Read more</a>
+			<a href="article.php?id=<?=$article['id_article']?>">Read more</a>
 		</div>
 	<? endforeach; ?>
 </div>

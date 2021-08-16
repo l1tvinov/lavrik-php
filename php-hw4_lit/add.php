@@ -1,44 +1,42 @@
 <?php
 
-	include_once('model/articles.php');
-	include_once('model/visits.php');
-	
-	addVisitLog();
+include_once('model/articles.php');
+include_once('model/visits.php');
 
-	$isSend = false;
-	$err = '';
+addVisitLog();
 
-	if($_SERVER['REQUEST_METHOD'] === 'POST'){
-		$title = trim($_POST['title']);
-		$content = trim($_POST['content']);
-		
-		if($title === '' || $content === ''){
-			$err = 'Заполните все поля!';
-		}
-		else{
-			addArticle($title, $content);
-			$isSend = true;
-		}
+
+$fields = ['title' => '', 'content' => ''];
+$err = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$fields['title']	 = trim($_POST['title']);
+	$fields['content']	 = trim($_POST['content']);
+
+	if ($fields['title'] === '' || $fields['content'] === '') {
+		$err = 'Заполните все поля!';
+	} else {
+		messagesAdd($fields);
+		header('Location: index.php');
+		exit();
 	}
-	else{
-		$title = '';
-		$content = '';
-	}
+}
+
 
 ?>
 <div class="form">
-	<? if($isSend): ?>
+	<? if ($isSend) : ?>
 		<p>Your article is done!</p>
-	<? else: ?>
+	<? else : ?>
 		<form method="post">
-			Name:<br>
-			<input type="text" name="title" value="<?=$title?>">
+			Title:<br>
+			<input type="text" name="title" value="<?= $fields['title'] ?>">
 			<br>
-			Phone:<br>
-			<textarea name="content"><?=$content?></textarea>
+			Content:<br>
+			<textarea name="content"><?= $fields['content'] ?></textarea>
 			<br>
 			<button>Send</button>
-			<p><?=$err?></p>
+			<p><?= $err ?></p>
 		</form>
 	<? endif; ?>
 </div>
